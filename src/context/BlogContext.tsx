@@ -1,13 +1,12 @@
 import * as React from 'react';
-import {Context, useReducer} from 'react';
+// import {Context, useReducer} from 'react';
 import {IBlog, IBlogContext} from '../types/interfaces.ts';
+import createDataContext from './createDataContext.tsx';
 
 const defaultValue: IBlogContext = {
-  data: [],
+  state: [],
   addBlogPost: () => {},
 };
-
-const BlogContext: Context<IBlogContext> = React.createContext(defaultValue);
 
 interface IAction {
   type: string;
@@ -17,26 +16,22 @@ interface IAction {
 const blogReducer = (state: IBlog[], action: IAction) => {
   switch (action.type) {
     case 'add':
-      return [...state, action.payload];
+      // return [...state, action.payload];
+      return [...state, {title: `Blog Post #${state.length + 1}`, body: `Blog post body ${state.length + 1}`}];
     default:
       return state;
   }
 };
 
-export interface IBlogProviderProps {
-  children: any;
-}
-
-const BlogProvider = ({children}: IBlogProviderProps) => {
-  const [blogPosts, dispatch] = useReducer(blogReducer, []);
-
-  const addBlogPost = () => {
-    const indexNumber = blogPosts.length + 1;
-    dispatch({type: 'add', payload: {title: `BlogPost ${indexNumber}`, body: `Body Post ${indexNumber}`}});
+const addBlogPost = (dispatch: any) => {
+  // const indexNumber = blogPosts.length + 1;
+  return () => {
+    // dispatch({type: 'add', payload: {title: `BlogPost ${indexNumber}`, body: `Body Post ${indexNumber}`}});
+    dispatch({type: 'add'});
   };
-
-  return <BlogContext.Provider value={{data: blogPosts, addBlogPost}}>{children}</BlogContext.Provider>;
 };
 
-export {BlogProvider};
-export default BlogContext;
+const dataContext = createDataContext(blogReducer, {addBlogPost}, [], defaultValue);
+const {Context}: {Context: React.Context<IBlogContext>} = dataContext;
+const {Provider} = dataContext;
+export {Context, Provider};

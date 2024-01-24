@@ -1,20 +1,20 @@
 import * as React from 'react';
 import {StyleSheet, View, Text, FlatList, Button} from 'react-native';
 import {useContext} from 'react';
-import BlogContext from '../context/BlogContext.tsx';
+import {Context as BlogContext} from '../context/BlogContext.tsx';
 
 interface IIndexScreenProps {}
 
 const IndexScreen = ({}: IIndexScreenProps) => {
-  const {data, addBlogPost} = useContext(BlogContext);
+  const {state, addBlogPost} = useContext(BlogContext);
   return (
     <View style={styles.screen}>
       <Button title={'Add blogpost'} onPress={addBlogPost} />
       <FlatList
-        data={data}
+        data={state}
         keyExtractor={item => item.title}
         renderItem={({item}) => (
-          <View style={{marginBottom: 15}}>
+          <View style={styles.blogPost}>
             <Text>{item.title}</Text>
             <Text>{item.body}</Text>
           </View>
@@ -29,6 +29,9 @@ const styles = StyleSheet.create({
     flex: 1,
     // alignItems: 'center',
     // justifyContent: 'center',
+  },
+  blogPost: {
+    marginVertical: 10,
   },
 });
 

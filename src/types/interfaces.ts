@@ -3,6 +3,6 @@ export interface IBlog {
   body: string;
 }
 export interface IBlogContext {
-  data: IBlog[];
+  state: IBlog[];
   addBlogPost: () => void;
 }
