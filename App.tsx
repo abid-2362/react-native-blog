@@ -12,6 +12,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import IndexScreen from './src/screens/IndexScreen.tsx';
+import {BlogProvider} from './src/context/BlogContext.tsx';
 
 const Stack = createNativeStackNavigator();
 
@@ -46,6 +47,10 @@ function BlogsNavigator(): React.JSX.Element {
 }
 
 const App = () => {
-  return <BlogsNavigator />;
+  return (
+    <BlogProvider>
+      <BlogsNavigator />
+    </BlogProvider>
+  );
 };
 export default App;
