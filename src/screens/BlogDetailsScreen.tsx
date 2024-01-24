@@ -1,14 +1,16 @@
 import * as React from 'react';
 import {StyleSheet, View, Text} from 'react-native';
-import {RouteProp, useRoute} from '@react-navigation/native';
+import {NavigationProp, RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {BlogsParamList} from '../types';
 import {useContext} from 'react';
 import {Context as BlogContext} from '../context/BlogContext.tsx';
+import BlogDetailsScreenHeaderRightButton from '../components/BlogDetailsScreenHeaderRightButton.tsx';
 
 interface IBlogDetailsScreenProps {}
 
 const BlogDetailsScreen = ({}: IBlogDetailsScreenProps) => {
   const route: RouteProp<BlogsParamList, 'BlogDetails'> = useRoute();
+  const navigation: NavigationProp<BlogsParamList> = useNavigation();
   const {id} = route.params;
 
   const {state} = useContext(BlogContext);
@@ -17,6 +19,10 @@ const BlogDetailsScreen = ({}: IBlogDetailsScreenProps) => {
   if (!blogPost) {
     return <Text style={styles.screen}>Oh!! You landed on wrong page.</Text>;
   }
+
+  navigation.setOptions({
+    headerRight: () => <BlogDetailsScreenHeaderRightButton id={id} />,
+  });
 
   return (
     <View style={styles.screen}>

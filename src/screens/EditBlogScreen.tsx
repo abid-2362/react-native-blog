@@ -1,18 +1,22 @@
 import * as React from 'react';
 import {StyleSheet, View, Text, TextInput, Button, ScrollView} from 'react-native';
-import {useContext, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import {Context as BlogContext} from '../context/BlogContext.tsx';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
+import {NavigationProp, RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {BlogsParamList} from '../types';
 import BlogDetailsScreenHeaderRightButton from '../components/BlogDetailsScreenHeaderRightButton.tsx';
 
-interface ICreateBlogScreenProps {}
+interface IEditBlogScreenProps {}
 
-const CreateBlogScreen = ({}: ICreateBlogScreenProps) => {
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+const EditBlogScreen = ({}: IEditBlogScreenProps) => {
   const navigation: NavigationProp<BlogsParamList> = useNavigation();
-  const {addBlogPost} = useContext(BlogContext);
+  const route: RouteProp<BlogsParamList, 'EditBlog'> = useRoute();
+  const {state, editBlogPost} = useContext(BlogContext);
+  const {id} = route.params;
+  const post = state.find(blog => blog.id === id);
+
+  const [title, setTitle] = useState(post?.title ?? '');
+  const [content, setContent] = useState(post?.body ?? '');
 
   return (
     <View style={styles.screen}>
@@ -46,9 +50,9 @@ const CreateBlogScreen = ({}: ICreateBlogScreenProps) => {
 
         <View style={styles.section}>
           <Button
-            title={'Add Blog Post'}
+            title={'Edit Blog Post'}
             onPress={() =>
-              addBlogPost(title, content, () => {
+              editBlogPost(id, title, content, () => {
                 navigation.navigate('Blogs');
               })
             }
@@ -85,4 +89,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CreateBlogScreen;
+export default EditBlogScreen;

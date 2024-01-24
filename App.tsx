@@ -16,6 +16,7 @@ import {Provider as BlogProvider} from './src/context/BlogContext.tsx';
 import BlogDetailsScreen from './src/screens/BlogDetailsScreen.tsx';
 import CreateBlogScreen from './src/screens/CreateBlogScreen.tsx';
 import IndexScreenHeaderRight from './src/components/IndexScreenHeaderRight.tsx';
+import EditBlogScreen from './src/screens/EditBlogScreen.tsx';
 
 const Stack = createNativeStackNavigator();
 
@@ -44,6 +45,7 @@ function BlogsNavigator(): React.JSX.Element {
         />
         <Stack.Screen name="BlogDetails" component={BlogDetailsScreen} options={{title: 'Blog'}} />
         <Stack.Screen name="CreateBlog" component={CreateBlogScreen} options={{title: 'New Blog'}} />
+        <Stack.Screen name="EditBlog" component={EditBlogScreen} options={{title: 'Edit Blog'}} />
       </Stack.Navigator>
     </NavigationContainer>
   );
