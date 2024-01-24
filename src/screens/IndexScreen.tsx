@@ -6,17 +6,24 @@ import {Context as BlogContext} from '../context/BlogContext.tsx';
 interface IIndexScreenProps {}
 
 const IndexScreen = ({}: IIndexScreenProps) => {
-  const {state, addBlogPost} = useContext(BlogContext);
+  const {state, addBlogPost, deleteBlogPost} = useContext(BlogContext);
   return (
     <View style={styles.screen}>
       <Button title={'Add blogpost'} onPress={addBlogPost} />
       <FlatList
         data={state}
-        keyExtractor={item => item.title}
+        keyExtractor={item => item.id}
         renderItem={({item}) => (
           <View style={styles.blogPost}>
-            <Text>{item.title}</Text>
-            <Text>{item.body}</Text>
+            <Text style={styles.title}>
+              {item.title} - {item.id}
+            </Text>
+            <Button
+              title={'Delete'}
+              onPress={() => {
+                deleteBlogPost(item.id);
+              }}
+            />
           </View>
         )}
       />
@@ -29,9 +36,20 @@ const styles = StyleSheet.create({
     flex: 1,
     // alignItems: 'center',
     // justifyContent: 'center',
+    padding: 5,
   },
   blogPost: {
-    marginVertical: 10,
+    padding: 10,
+    borderColor: '#AFAFAF',
+    borderWidth: 1,
+    borderRadius: 5,
+    marginVertical: 5,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  title: {
+    fontSize: 18,
   },
 });
 
