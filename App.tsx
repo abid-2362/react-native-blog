@@ -13,6 +13,9 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import IndexScreen from './src/screens/IndexScreen.tsx';
 import {Provider as BlogProvider} from './src/context/BlogContext.tsx';
+import BlogDetailsScreen from './src/screens/BlogDetailsScreen.tsx';
+import CreateBlogScreen from './src/screens/CreateBlogScreen.tsx';
+import IndexScreenHeaderRight from './src/components/IndexScreenHeaderRight.tsx';
 
 const Stack = createNativeStackNavigator();
 
@@ -34,7 +37,13 @@ function BlogsNavigator(): React.JSX.Element {
       </SafeAreaView>
 
       <Stack.Navigator initialRouteName={'Blogs'} screenOptions={{contentStyle: {backgroundColor: '#FFFFFF'}}}>
-        <Stack.Screen name="Blogs" component={IndexScreen} options={{title: 'Blogs'}} />
+        <Stack.Screen
+          name="Blogs"
+          component={IndexScreen}
+          options={{title: 'Blogs', headerRight: IndexScreenHeaderRight}}
+        />
+        <Stack.Screen name="BlogDetails" component={BlogDetailsScreen} options={{title: 'Blog'}} />
+        <Stack.Screen name="CreateBlog" component={CreateBlogScreen} options={{title: 'New Blog'}} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -26,8 +26,8 @@ const blogReducer = (state: IBlog[], action: IAction) => {
         ...state,
         {
           id: String(random(1000, 1000000)),
-          title: `Blog Post #${state.length + 1}`,
-          body: `Blog post body ${state.length + 1}`,
+          title: action.payload.title,
+          body: action.payload.content,
         },
       ];
 
@@ -40,9 +40,10 @@ const blogReducer = (state: IBlog[], action: IAction) => {
 
 const addBlogPost = (dispatch: any) => {
   // const indexNumber = blogPosts.length + 1;
-  return () => {
+  return (title: string, content: string, onSuccess: () => void) => {
     // dispatch({type: 'add', payload: {title: `BlogPost ${indexNumber}`, body: `Body Post ${indexNumber}`}});
-    dispatch({type: 'add'});
+    dispatch({type: 'add', payload: {title, content}});
+    onSuccess();
   };
 };
 
