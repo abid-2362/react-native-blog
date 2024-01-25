@@ -75,13 +75,15 @@ const addBlogPost = () => {
 };
 
 const deleteBlogPost = (dispatch: any) => {
-  return (id: string) => {
+  return async (id: string) => {
+    await server.delete(`/blogposts/${id}`);
     dispatch({type: 'delete', payload: id});
   };
 };
 
 const editBlogPost = (dispatch: any) => {
-  return (id: string, title: string, body: string, onSuccess?: () => void) => {
+  return async (id: string, title: string, body: string, onSuccess?: () => void) => {
+    await server.put(`/blogposts/${id}`, {title, body});
     dispatch({type: 'update', payload: {id, title, body}});
     if (onSuccess) {
       onSuccess();
