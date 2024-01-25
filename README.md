@@ -1,3 +1,8 @@
+# Important Note
+This app has a separate branch named as `connecting-to-dev-server` which contains the connection to an external api server.
+
+This app was created and tested on demo server created by `json-server` package. a `db.json` is included in this branch for the demonstration purposes, just in case you need check the working of app when it is connected to a server API.
+
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
 # Getting Started
