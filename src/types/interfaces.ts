@@ -9,4 +9,5 @@ export interface IBlogContext {
   addBlogPost: (title: string, content: string, onSuccess?: () => void) => void;
   deleteBlogPost: (id: string) => void;
   editBlogPost: (id: string, title: string, content: string, onSuccess?: () => void) => void;
+  getBlogPosts: () => void;
 }

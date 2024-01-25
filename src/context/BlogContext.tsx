@@ -3,18 +3,22 @@ import * as React from 'react';
 import {IBlog, IBlogContext} from '../types/interfaces.ts';
 import createDataContext from './createDataContext.tsx';
 import random from 'lodash/random';
+import server from '../api/jsonServer.ts';
+import {AxiosResponse} from 'axios';
 
 const defaultValue: IBlogContext = {
   id: '',
   state: [],
   addBlogPost: () => {},
   deleteBlogPost: (id: string) => {
-    console.log('id', id);
+    id;
   },
   editBlogPost: (id, title, content, onSuccess) => {
-    console.log(id, title, content);
-    onSuccess();
+    if (onSuccess) {
+      onSuccess();
+    }
   },
+  getBlogPosts: () => {},
 };
 
 interface IAction {
@@ -37,19 +41,33 @@ const blogReducer = (state: IBlog[], action: IAction) => {
 
     case 'delete':
       return [...state.filter(blog => blog.id !== action.payload)];
+
     case 'update':
       const {id, title, body} = action.payload;
       return [...state.filter(blog => blog.id !== id), {id, title, body}];
+
+    case 'reset_posts':
+      return [...action.payload];
+
     default:
       return state;
   }
 };
 
-const addBlogPost = (dispatch: any) => {
-  // const indexNumber = blogPosts.length + 1;
-  return (title: string, content: string, onSuccess?: () => void) => {
-    // dispatch({type: 'add', payload: {title: `BlogPost ${indexNumber}`, body: `Body Post ${indexNumber}`}});
-    dispatch({type: 'add', payload: {title, content}});
+const getBlogPosts = (dispatch: any) => {
+  return async () => {
+    const response: AxiosResponse<IBlog[]> = await server.get('/blogposts');
+    dispatch({type: 'reset_posts', payload: response.data});
+  };
+};
+
+const addBlogPost = () => {
+  return async (title: string, content: string, onSuccess?: () => void) => {
+    await server.post('/blogposts', {
+      title,
+      body: content,
+    });
+
     if (onSuccess) {
       onSuccess();
     }
@@ -73,14 +91,8 @@ const editBlogPost = (dispatch: any) => {
 
 const dataContext = createDataContext(
   blogReducer,
-  {addBlogPost, deleteBlogPost, editBlogPost},
-  [
-    {
-      id: '1234',
-      title: 'Lorem Ipsum',
-      body: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dicta, fugiat magnam mollitia perspiciatis quo repellendus tempore vel. Ab amet at autem blanditiis deleniti ea eum eveniet facilis fuga harum illum impedit itaque labore libero magni molestias nisi non perferendis perspiciatis quaerat quod repudiandae sapiente sed, sit soluta sunt tenetur unde vitae voluptatem voluptatibus? Architecto culpa incidunt ipsam velit. Adipisci aperiam assumenda blanditiis consectetur debitis dolore earum enim esse eum excepturi fugit id incidunt ipsa iste itaque, laborum laudantium minima molestias nam natus nobis odit officiis perferendis quae quam quibusdam ratione reiciendis, unde vitae voluptates. Animi doloremque in non vero voluptatem!',
-    },
-  ],
+  {addBlogPost, deleteBlogPost, editBlogPost, getBlogPosts},
+  [],
   defaultValue,
 );
 const {Context}: {Context: React.Context<IBlogContext>} = dataContext;

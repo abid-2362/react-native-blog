@@ -1,15 +1,27 @@
 import * as React from 'react';
 import {StyleSheet, View, Text, FlatList, Button, TouchableOpacity} from 'react-native';
-import {useContext} from 'react';
+import {useCallback, useContext, useEffect} from 'react';
 import {Context as BlogContext} from '../context/BlogContext.tsx';
 import {BlogsParamList} from '../types';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
+import {NavigationProp, useFocusEffect, useNavigation} from '@react-navigation/native';
 
 interface IIndexScreenProps {}
 
 const IndexScreen = ({}: IIndexScreenProps) => {
-  const {state, deleteBlogPost} = useContext(BlogContext);
+  const {state, deleteBlogPost, getBlogPosts} = useContext(BlogContext);
   const navigation: NavigationProp<BlogsParamList> = useNavigation();
+
+  useEffect(() => {
+    getBlogPosts();
+    //   eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      getBlogPosts();
+      //   eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []),
+  );
 
   if (!state.length) {
     return (
