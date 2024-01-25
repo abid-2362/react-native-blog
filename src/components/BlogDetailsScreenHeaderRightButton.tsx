@@ -6,7 +6,11 @@ import * as React from 'react';
 interface IBlogDetailsScreenHeaderRightButtonProps {
   id: string;
 }
-const BlogDetailsScreenHeaderRightButton = ({id}: IBlogDetailsScreenHeaderRightButtonProps) => {
+
+const BlogDetailsScreenHeaderRightButton = (id: string) => {
+  return <BlogDetailsScreenHeaderRightButtonComponent id={id} />;
+};
+const BlogDetailsScreenHeaderRightButtonComponent = ({id}: IBlogDetailsScreenHeaderRightButtonProps) => {
   const navigation: NavigationProp<BlogsParamList> = useNavigation();
   return (
     <Button

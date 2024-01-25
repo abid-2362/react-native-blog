@@ -47,10 +47,12 @@ const blogReducer = (state: IBlog[], action: IAction) => {
 
 const addBlogPost = (dispatch: any) => {
   // const indexNumber = blogPosts.length + 1;
-  return (title: string, content: string, onSuccess: () => void) => {
+  return (title: string, content: string, onSuccess?: () => void) => {
     // dispatch({type: 'add', payload: {title: `BlogPost ${indexNumber}`, body: `Body Post ${indexNumber}`}});
     dispatch({type: 'add', payload: {title, content}});
-    onSuccess();
+    if (onSuccess) {
+      onSuccess();
+    }
   };
 };
 
@@ -61,9 +63,11 @@ const deleteBlogPost = (dispatch: any) => {
 };
 
 const editBlogPost = (dispatch: any) => {
-  return (id: string, title: string, body: string, onSuccess: () => void) => {
+  return (id: string, title: string, body: string, onSuccess?: () => void) => {
     dispatch({type: 'update', payload: {id, title, body}});
-    onSuccess();
+    if (onSuccess) {
+      onSuccess();
+    }
   };
 };
 

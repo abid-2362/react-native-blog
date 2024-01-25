@@ -6,7 +6,7 @@ export interface IBlog {
 export interface IBlogContext {
   id: string;
   state: IBlog[];
-  addBlogPost: (title: string, content: string, onSuccess: () => void) => void;
+  addBlogPost: (title: string, content: string, onSuccess?: () => void) => void;
   deleteBlogPost: (id: string) => void;
-  editBlogPost: (id: string, title: string, content: string, onSuccess: () => void) => void;
+  editBlogPost: (id: string, title: string, content: string, onSuccess?: () => void) => void;
 }

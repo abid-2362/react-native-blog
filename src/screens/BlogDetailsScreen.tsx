@@ -21,7 +21,9 @@ const BlogDetailsScreen = ({}: IBlogDetailsScreenProps) => {
   }
 
   navigation.setOptions({
-    headerRight: () => <BlogDetailsScreenHeaderRightButton id={id} />,
+    headerRight: () => {
+      return BlogDetailsScreenHeaderRightButton(id);
+    },
   });
 
   return (
